@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+  <script>
+    //因为button span button，这个组合在项目中反复出现，所以应该封装为一个组件
+    //组件名中包含多个英文单词，应该用-分隔，而不用驼峰命名！
+    Vue.component("my-counter",{
+      //组件的template也要求必须只能有一个唯一的父元素包裹
+      //因为组件中只有span的内容可能发生变化，所以，用{{n}}来标记
+      //因为两个按钮可点击执行加减计算
+      template:`<div>
+        <button @click="minus">-</button>
+        <span>{{n}}</span>
+        <button @click="add">+</button>
+      </div>`,
+      data(){
+        return {//新对象
+          //因为组件的template中只需要一个变量n
+          n:0
+        }
+      },
+      //因为组件的template中需要两个事件处理函数
+      methods:{
+        minus(){
+          if(this.n>0){ this.n-- }
+        },
+        add(){
+          this.n++;
+        }
+      }
+    })
+  </script>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <!--因为组件名叫my-counter，所以-->
+      <li><my-counter></my-counter></li>
+      <li><my-counter></my-counter></li>
+      <li><my-counter></my-counter></li>
+    </ul>
+  </div>
+  <script>
+    //任何情况下new Vue()都不能删除
+    //我们所学的所有功能之所以可以运行，都是建立在new Vue()会扫描页面元素的基础上！
+    new Vue({
+      el:"#app"
+    })
+  </script>
+</body>
+</html>

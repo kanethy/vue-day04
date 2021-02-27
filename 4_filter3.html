@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!--想无论什么时候显示性别，都在性别结尾加性别图标-->
+    <h3>性别1:{{sex1 | sexFilter | sexIcon}}</h3>
+    <h3>性别2:{{sex2 | sexFilter | sexIcon}}</h3>
+    <!--想转英文: -->
+    <h3>性别1:{{sex1 | sexFilter("en") | sexIcon}}</h3>
+    <h3>性别2:{{sex2 | sexFilter("en") | sexIcon}}</h3>
+  </div>
+  <script>
+    //定义一个自定义！自定义！自定义！形参变量lang，表示想转成的语言种类是哪种！
+    //如果想转成英文，就传入“en”——我们自己的规定！！！
+    //否则传入其余任何值都默认转为中文
+    Vue.filter("sexFilter",function(oldVal, lang){
+      if(lang=="en"){
+        return oldVal==1?"Male":"Female"
+      }else{
+        return oldVal==1?"男":"女"
+      }
+    });
+    //再加一个专门给性别结尾追加性别图标的过滤器
+    Vue.filter("sexIcon",function(oldVal){
+      //oldVal共有几种情况?4种: 男，女，Male，Female
+      if(oldVal=="男"||oldVal=="Male"){
+        return oldVal+"♂"
+      }else{
+        return oldVal+"♀"
+      }
+
+    })
+  </script>
+  <script>
+    new Vue({
+      el:"#app",
+      data:{
+        sex1:1,
+        sex2:0
+      }
+    })
+  </script>
+</body>
+</html>

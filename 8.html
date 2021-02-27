@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+</head>
+<body> 
+    <div id="app1">
+        <h3>总价：￥{{total.toFixed(2)}}</h3>
+        <ul>
+            <li v-for="(p,i) of cart" :key="i">{{p.lid}}|{{p.lname}}|￥{{(p.price).toFixed(2)}}|{{p.count}}|小计:￥{{(p.price*p.count).toFixed(2)}}</li>
+        </ul>
+        <h3>总价：￥{{total.toFixed(2)}}</h3>
+    </div>
+
+    <div id="app2">
+        <h3>性别1：{{sex1 | sexfilter("en") | sexIcon}}</h3>
+        <h3>性别2：{{sex2 | sexfilter("en") | sexIcon}}</h3>
+
+        <h3>性别1：{{sex1 | sexfilter | sexIcon}}</h3>
+        <h3>性别2：{{sex2 | sexfilter | sexIcon}}</h3>
+    </div>
+
+    <script>
+        Vue.filter("sexfilter",function(ordersex,lang){
+            if(lang=="en"){
+                return ordersex==1?"Male":"Female"
+            }else{
+                return ordersex==1?"男":"女"
+            }
+        })
+
+        Vue.filter("sexIcon",function(orderval){
+            if(orderval=="男"||orderval=="Male"){
+                return orderval+"♂"
+            }else{
+                return orderval+"♀"
+            }
+        })
+    </script>
+    <script>
+        new Vue({
+            el:"#app1",
+            data:{
+                cart:[
+                    {lid:1,lname:"小米",price:3888,count:3},
+                    {lid:2,lname:"华为",price:5888,count:2},
+                    {lid:3,lname:"苹果",price:8888,count:1}
+                ]
+            },
+            computed:{
+                total(){
+                    var total=0;
+                    for(var p of this.cart){
+                        total+=p.price*p.count;
+                    }
+                    return total;
+                }
+            }
+        })
+
+        new Vue({
+            el:"#app2",
+            data:{
+                sex1:1,
+                sex2:0
+            }
+        })
+    </script>
+</body>
+</html>

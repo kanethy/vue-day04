@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+  <script src="js/todo-add.js">
+    //var todoAdd={ ... }
+  </script>
+  <script src="js/todo-item.js">
+    //var todoItem={ ... }
+  </script>
+  <script src="js/todo-list.js">
+    //var todoList={ 
+      //components:{ todoItem }
+    //}
+  </script>
+  <script src="js/todo.js">
+    //components:{ todoAdd, todoList }
+  </script>
+  
+</head>
+<body>
+  <div id="app">
+    <todo></todo>
+    <!-- <todo-item></todo-item> 报错: todoItem被限制只能todoList下使用！只要超出todoList使用就报错！ -->
+  </div>
+  <script>
+    new Vue({
+      el:"#app"
+    })
+  </script>
+</body>
+</html>

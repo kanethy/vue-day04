@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(p,i) of products" :key="i">{{p.pid}}|{{p.title}}|{{p.details}}|{{p.price}}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                products:[]
+            },
+            beforeMount(){
+                console.log(`挂载前...`)
+            },
+            mounted(){
+                console.log(`挂载后...`);
+        
+                axios.get(
+                    "http://xzserver.applinzi.com/index",
+                ).then(result=>{
+                    console.log(result.data);
+                    this.products=result.data;
+                })
+            }
+        })
+    </script>
+</body>
+</html>

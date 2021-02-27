@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+  <script src="js/axios.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="(p,i) of products" :key="i">
+        {{p.pid}} | {{p.title}} | {{p.details}}
+      </li>
+    </ul>
+  </div>
+  <script>
+    //今后，凡是和vue有关的代码，都必须写在new VUe()内部！
+    //写在new Vue()外部的代码是不受监控的
+    //强调: 以下8个函数绝对不要都写出来！而是用到哪个，就只写哪个！
+    var vm=new Vue({
+      el:"#app",
+      data:{
+        products:[] //定义商品列表变量，准备接受服务器端返回的商品列表
+      },
+      beforeCreate(){
+        console.log(`创建前...`)
+      },
+      created(){
+        console.log(`创建后...`)
+      },
+      beforeMount(){
+        console.log(`挂载前...`)
+      },
+      mounted(){
+        //this->new Vue()
+        //这个时候既有data，又有虚拟DOM树了，什么都不缺了！
+        console.log(`挂载后...`);
+        axios.get(
+          "http://xzserver.applinzi.com/index"
+        ).then(result=>{
+          console.log(result.data);
+          //希望将结果放到data中的products变量上保存
+          this.products=result.data;
+          //应该能触发更新阶段！
+        })
+      },
+      beforeUpdate(){
+        console.log(`更新前...`)
+      },
+      updated(){
+        console.log(`更新后...`)
+      },
+      beforeDestroy(){
+        console.log(`销毁前...`)
+      },
+      destroyed(){
+        console.log(`销毁后...`)
+      }
+    });
+    //手工在控制台中输入: vm.$destroy()可看到销毁阶段
+  </script>
+</body>
+</html>

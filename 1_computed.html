@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="js/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h3>总价: ¥{{total.toFixed(2)}}</h3>
+    <ul>
+      <!--用v-for遍历cart变量中保存的购物车中每个商品对象
+      强调: 循环变量p，获得的是cart数组中某一个商品对象，所以p.lid或p.lname才能访问每个商品的id和名称-->
+      <li v-for="(p,i) of cart" :key="i">{{p.lid}} | {{p.lname}} | ¥{{p.price.toFixed(2)}} | {{p.count}} | 小计: ¥{{(p.price*p.count).toFixed(2)}}</li>
+    </ul>
+    <!--调用methods中自定义的total函数，必须加()-->
+    <h3>总价: ¥{{total.toFixed(2)}}</h3>
+  </div>
+
+  <script>
+    new Vue({
+      el:"#app",
+      data:{
+        cart:[
+          {lid:1, lname:"华为",price:5588,count:2},
+          {lid:2, lname:"小米",price:3588,count:3},
+          {lid:3, lname:"苹果",price:8588,count:1},
+        ]
+      },
+      methods:{//methods中其实可以保存任何函数，而不仅仅局限于事件处理函数
+        
+      },
+      computed:{
+        //定义了一个计算属性，属性名为total
+        total(){//自定义函数
+          console.log(`计算了一次总价...`)
+          var total=0;
+          //遍历购物车中每个商品对象
+          for(var p of this.cart){
+            //每遍历一个对象，就将商品的单价*数量求出这个商品的小计，累加到变量total上
+            total+=p.price*p.count;
+          }
+          return total;
+        }
+      }
+    })
+
+    
+  </script>
+</body>
+</html>
